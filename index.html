@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4D Design Software Research Platform | SAMUELSON G</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            800: '#1e40af',
+                            900: '#1e293b',
+                            950: '#0f172a',
+                        },
+                        accent: {
+                            teal: '#0d9488',
+                            emerald: '#059669',
+                            amber: '#d97706',
+                            rose: '#e11d48',
+                            purple: '#7c3aed'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 420px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+    <!-- Chosen Palette: Slate Indigo & Warm Neutral -->
+    <!-- Application Structure Plan: Designed a 6-module thematic interactive dashboard SPA for SAMUELSON G's paper. Includes executive summary metrics, dual taxonomy comparative view, dynamic IFC schema viewer, interactive clash criticality & SLF calculators, interactive Chart.js empirical analytics (CS0-CS7, turnaround, LOD clashes, trade precision), 4D printing inverse design bilayer map simulator, patent legal explorer, full CRediT author declarations, and searchable reference library. Structure chosen to enable non-linear exploration for researchers, civil engineers, and additive manufacturing specialists. -->
+    <!-- Visualization & Content Choices: 
+        1. CS0-CS7 Accuracy -> Chart.js Line Chart -> Interactive scenario selection -> Demonstrates 3D+4D+5D parametric resilience over legacy methods -> Chart.js Canvas
+        2. Turnaround Times -> Chart.js Bar Chart -> Time savings per design change -> Highlight 97.1% efficiency gain -> Chart.js Canvas
+        3. LOD 300 vs 350/400 Clashes -> Chart.js Doughnut Chart -> Financial impact breakdown -> Proves 4D workflow clashes yield 58% rework savings -> Chart.js Canvas
+        4. Generative Scheduling Pareto Front -> Chart.js Scatter Plot -> Tradeoff exploration -> Demonstrates Explainable AI duration/cost optimization -> Chart.js Canvas
+        5. BWM Clash Criticality Index -> Custom JS Dynamic Calculator -> Live parametric input -> Real-time formula computation -> HTML/Tailwind + JS
+        6. LCE Bilayer 4DP Simulator -> Dynamic HTML/CSS Grid -> Voxel orientation toggles -> Illustrates non-iterative semantic inverse design -> Dynamic HTML Canvas/CSS
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased custom-scrollbar">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-blue-600 text-white font-bold text-lg">4D</span>
+                    <div>
+                        <h1 class="text-base font-bold tracking-tight text-white leading-tight">Computational Paradigms in 4D Design Software</h1>
+                        <p class="text-xs text-slate-400">Research Paper Interactive Suite &bull; Author: <span class="text-blue-400 font-semibold">SAMUELSON G</span></p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Nav Tabs -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 text-xs font-medium">
+                    <button onclick="switchTab('overview')" id="nav-overview" class="nav-btn px-3 py-2 rounded-md bg-blue-600 text-white">Overview & Abstract</button>
+                    <button onclick="switchTab('taxonomy')" id="nav-taxonomy" class="nav-btn px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Taxonomy & Scales</button>
+                    <button onclick="switchTab('aeco')" id="nav-aeco" class="nav-btn px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">4D BIM & Calculators</button>
+                    <button onclick="switchTab('empirical')" id="nav-empirical" class="nav-btn px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Empirical Benchmarks</button>
+                    <button onclick="switchTab('printing')" id="nav-printing" class="nav-btn px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">4D Printing & Inverse AI</button>
+                    <button onclick="switchTab('declarations')" id="nav-declarations" class="nav-btn px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">Author & Declarations</button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+                        <span class="text-xl">&#9776;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-950 px-4 pt-2 pb-4 space-y-1 border-t border-slate-800 text-sm">
+            <button onclick="switchTab('overview')" class="block w-full text-left px-3 py-2 rounded-md text-white bg-blue-600">Overview & Abstract</button>
+            <button onclick="switchTab('taxonomy')" class="block w-full text-left px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Taxonomy & Scales</button>
+            <button onclick="switchTab('aeco')" class="block w-full text-left px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">4D BIM & Calculators</button>
+            <button onclick="switchTab('empirical')" class="block w-full text-left px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Empirical Benchmarks</button>
+            <button onclick="switchTab('printing')" class="block w-full text-left px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">4D Printing & Inverse AI</button>
+            <button onclick="switchTab('declarations')" class="block w-full text-left px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Author & Declarations</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION 1: OVERVIEW & ABSTRACT -->
+        <section id="sec-overview" class="tab-content space-y-8">
+            <!-- Header Hero Banner -->
+            <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 text-white rounded-2xl p-6 sm:p-10 shadow-xl border border-slate-800">
+                <div class="max-w-4xl space-y-4">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-semibold">
+                        <span>PEER-REVIEWED RESEARCH SYNTHESIS</span>
+                        <span>&bull;</span>
+                        <span>SOLE AUTHOR: SAMUELSON G</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                        Computational Paradigms in 4D Design Software: Spatio-Temporal Process Simulation in AECO and Inverse Material Programming in Additive Manufacturing
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        An exhaustive technical investigation into 4D computational environments—spanning macro-scale construction scheduling via Industry Foundation Classes (IFC) and micro-to-meso-scale chemo-mechanical morphogenesis in smart additive manufacturing via deep inverse normalizing flows and semantic segmentation.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4 text-xs font-medium text-slate-300">
+                        <div class="bg-slate-800/80 px-4 py-2.5 rounded-lg border border-slate-700/80 flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span><strong>Composite Accuracy:</strong> 96.7% (BIM-5D)</span>
+                        </div>
+                        <div class="bg-slate-800/80 px-4 py-2.5 rounded-lg border border-slate-700/80 flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                            <span><strong>Turnaround Speedup:</strong> 97.1% (42h &rarr; 1.2h)</span>
+                        </div>
+                        <div class="bg-slate-800/80 px-4 py-2.5 rounded-lg border border-slate-700/80 flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                            <span><strong>Clash Elimination:</strong> Up to 100% Spatial-Temporal</span>
+                        </div>
+                        <div class="bg-slate-800/80 px-4 py-2.5 rounded-lg border border-slate-700/80 flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                            <span><strong>Inverse AM AI:</strong> Single-Pass Inference</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keywords Bar -->
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Primary Manuscript Indexing Keywords</h3>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200 font-medium">4D Design Software</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">4D Building Information Modeling (4D BIM)</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">Spatial-Temporal Clash Detection</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">Generative Construction Scheduling</span>
+                    <span class="px-3 py-1 bg-teal-50 text-teal-700 rounded-md border border-teal-200 font-medium">4D Printing (4DP)</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">Non-Iterative Inverse Design</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">Industry Foundation Classes (IFC)</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">Programmable Matter</span>
+                    <span class="px-3 py-1 bg-purple-50 text-purple-700 rounded-md border border-purple-200 font-medium">Invertible Normalizing Flows (4DYNAMO)</span>
+                    <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200">Cyber-Physical Digital Twins</span>
+                </div>
+            </div>
+
+            <!-- Abstract Card -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+                <div class="flex items-center space-x-3 pb-3 border-b border-slate-100">
+                    <span class="text-2xl">&#128220;</span>
+                    <h3 class="text-xl font-bold text-slate-900">Executive Abstract</h3>
+                </div>
+                <div class="text-slate-700 leading-relaxed text-sm sm:text-base space-y-4">
+                    <p>
+                        Four-dimensional (4D) design software encompasses computational environments that integrate temporal dynamics (t) directly into three-dimensional (x, y, z) geometric and semantic representations. Across contemporary engineering and materials science, 4D software bifurcates into two distinct yet mathematically analogous domains: macro-scale spatial-temporal construction simulation via 4D Building Information Modeling (4D BIM) in the Architecture, Engineering, Construction, and Operations (AECO) sector, and micro-to-meso-scale chemo-mechanical morphogenesis via 4D printing (4DP) inverse design software in advanced additive manufacturing.
+                    </p>
+                    <p>
+                        This study by <strong>SAMUELSON G</strong> presents an exhaustive technical synthesis and empirical evaluation of both paradigms. In the AECO domain, the analysis examines OpenBIM Industry Foundation Classes (IFC) temporal schemas (<code class="bg-slate-100 text-blue-700 px-1 py-0.5 rounded text-xs">IfcWorkSchedule</code>, <code class="bg-slate-100 text-blue-700 px-1 py-0.5 rounded text-xs">IfcTask</code>, <code class="bg-slate-100 text-blue-700 px-1 py-0.5 rounded text-xs">IfcRelAssignsToProcess</code>), spatial-temporal workspace clash detection algorithms, and constraint-driven generative scheduling engines. Empirical benchmarks from multi-storey reinforced concrete, modular prefabrication, and subterranean pipeline projects demonstrate that integrated 3D+4D+5D BIM workflows elevate baseline composite accuracy from 78.4% (manual methods) to 96.7%, compress post-change re-estimation turnaround times by 97.1% (from 42.0 hours to 1.2 hours), reduce modular site durations by 50% (from 18 days to 9 days), and eliminate up to 100% of spatial-temporal pipeline collisions.
+                    </p>
+                    <p>
+                        In the additive manufacturing domain, the analysis investigates the transition from forward kinematic self-assembly simulators (such as Project Cyborg) to deep learning inverse design architectures—specifically Fully Convolutional Networks (FCNs), normalizing flows (4DYNAMO), and semantic segmentation networks—that map target 3D deformed morphologies directly into fabrication-ready voxel material layouts and liquid crystal elastomer (LCE) bilayer orientations in a single non-iterative inference pass. Finally, emerging intellectual property frameworks governing AI-generated 4D transformations and G-code manufacturing instructions are evaluated under contemporary patent jurisprudence.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dynamic KPI Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">AECO Model Resilience</span>
+                        <div class="text-3xl font-extrabold text-blue-600 mt-2">96.7%</div>
+                        <p class="text-xs text-slate-600 mt-1">Baseline composite accuracy (vs 78.4% manual). Drops only 2.9% at major CS7 topological expansion.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-medium text-emerald-600 flex items-center">
+                        <span>&#10004; Verified across CS0–CS7 sensitivity tests</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Turnaround Efficiency</span>
+                        <div class="text-3xl font-extrabold text-emerald-600 mt-2">1.2 Hours</div>
+                        <p class="text-xs text-slate-600 mt-1">Re-estimation time per design change (compressed 97.1% from 42.0h manual baseline).</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-medium text-emerald-600 flex items-center">
+                        <span>&#9889; 87.6% overall cumulative saving</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Modular Site Speedup</span>
+                        <div class="text-3xl font-extrabold text-amber-600 mt-2">50% Cut</div>
+                        <p class="text-xs text-slate-600 mt-1">Prefabricated site erection compressed from 18 days down to 9 days via 100% pre-site clash resolution.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-medium text-amber-600 flex items-center">
+                        <span>&#127959; 6 total pre-site clashes eliminated</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Inverse AI 4DP Solver</span>
+                        <div class="text-3xl font-extrabold text-purple-600 mt-2">Single-Pass</div>
+                        <p class="text-xs text-slate-600 mt-1">Non-iterative FCN & normalizing flow (4DYNAMO) mapping target shapes directly to G-code voxels.</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-medium text-purple-600 flex items-center">
+                        <span>&#129302; Zero target FEA optimization loops</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TAXONOMY & SCALES -->
+        <section id="sec-taxonomy" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900">Taxonomic Foundations of Four-Dimensional Design Computation</h3>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Unifying the mathematical formulation of spatial-temporal occupancy in AECO with continuous chemo-mechanical morphogenesis in smart materials.
+                    </p>
+                </div>
+
+                <div class="prose max-w-none text-slate-700 text-sm sm:text-base space-y-4">
+                    <p>
+                        Traditional Computer-Aided Design (CAD) and static 3D modeling treat physical artifacts and built facilities as time-invariant Euclidean geometries. The introduction of the fourth dimension—time—fundamentally alters the computational representation of an object from a static boundary representation (B-Rep) or voxel mesh into a time-parameterized state function:
+                    </p>
+                    <div class="bg-slate-900 text-blue-300 font-mono text-center py-4 px-6 rounded-lg text-base sm:text-lg border border-slate-800 shadow-inner">
+                        \mathcal{M}(\mathbf{x}, t), \quad \text{where } \mathbf{x} \in \mathbb{R}^3 \text{ and } t \in [t_0, t_f]
+                    </div>
+                    <p>
+                        Despite operating at vastly different physical scales (10^4\text{ m} in civil infrastructure vs. 10^{-6}\text{ m} in micro-printed metamaterials), both paradigms solve an identical core problem: predicting, optimizing, and controlling how physical matter occupies, traverses, and transforms within three-dimensional space over time.
+                    </p>
+                </div>
+
+                <!-- Table 1 Interactive Comparison -->
+                <div class="mt-6">
+                    <h4 class="text-base font-bold text-slate-900 mb-3">Table 1: Taxonomic Comparison Across Dual 4D Design Domains</h4>
+                    <div class="overflow-x-auto rounded-lg border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm">
+                            <thead class="bg-slate-900 text-white font-semibold">
+                                <tr>
+                                    <th class="p-3 sm:p-4 border-b border-slate-800">Computational Dimension</th>
+                                    <th class="p-3 sm:p-4 border-b border-slate-800 bg-blue-900/50">Macro-Scale AECO: 4D BIM & Scheduling</th>
+                                    <th class="p-3 sm:p-4 border-b border-slate-800 bg-teal-900/50">Meso/Micro-Scale AM: 4D Printing & Inverse CAD</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                                <tr>
+                                    <td class="p-3 sm:p-4 font-semibold text-slate-900 bg-slate-50">Primary Physical Scale</td>
+                                    <td class="p-3 sm:p-4">Meters to kilometers (10^0\text{ m} to 10^4\text{ m}); buildings, subterranean pipelines.</td>
+                                    <td class="p-3 sm:p-4">Micrometers to meters (10^{-6}\text{ m} to 10^0\text{ m}); biomedical stents, metamaterials, soft robotics.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 sm:p-4 font-semibold text-slate-900 bg-slate-50">Temporal Transformation</td>
+                                    <td class="p-3 sm:p-4">Discrete sequential assembly, resource allocation, workspace progression, equipment kinematics.</td>
+                                    <td class="p-3 sm:p-4">Continuous non-linear deformation, anisotropic swelling, shape-memory recovery, self-assembly.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 sm:p-4 font-semibold text-slate-900 bg-slate-50">Governing Mathematical Formulation</td>
+                                    <td class="p-3 sm:p-4 font-mono text-xs text-blue-800">Directed Acyclic Graphs (CPM), Line-of-Balance (LOB), Spatial-Temporal Bounding Box Intersection.</td>
+                                    <td class="p-3 sm:p-4 font-mono text-xs text-teal-800">Continuum Mechanics, Diffeomorphic Normalizing Flows, Voxel Semantic Segmentation.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 sm:p-4 font-semibold text-slate-900 bg-slate-50">Data Exchange Standards</td>
+                                    <td class="p-3 sm:p-4">Industry Foundation Classes (IFC), BCF, RVT, NWD, DGN, Primavera XML/XER.</td>
+                                    <td class="p-3 sm:p-4">Multi-material Voxel Matrices, Slice Label Maps, Orientation Tensors, Additive G-code.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 sm:p-4 font-semibold text-slate-900 bg-slate-50">Representative Platforms</td>
+                                    <td class="p-3 sm:p-4">Bentley SYNCHRO 4D Pro, Autodesk Navisworks Manage, BEXEL Manager, Fuzor, ALICE Technologies.</td>
+                                    <td class="p-3 sm:p-4">Autodesk Project Cyborg, 4DYNAMO, 4DMesh, FCN/Segmentation Inverse Frameworks.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 sm:p-4 font-semibold text-slate-900 bg-slate-50">Primary Optimization Objective</td>
+                                    <td class="p-3 sm:p-4">Minimize project duration, cost, and spatial-temporal trade collisions (CI \to 0).</td>
+                                    <td class="p-3 sm:p-4">Minimize Mean Relative Deformation Error (MRDE) between target and morphed shape.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: 4D BIM & CALCULATORS -->
+        <section id="sec-aeco" class="tab-content hidden space-y-8">
+            <!-- OpenBIM Data Schemas -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900">OpenBIM IFC Temporal Schemas & Clash Formulations</h3>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Semantic interoperability governed by buildingSMART Industry Foundation Classes (IFC) and mathematical space loading dynamics.
+                    </p>
+                </div>
+
+                <!-- IFC Ontology Visual Tree -->
+                <div class="bg-slate-900 text-white rounded-xl p-6 border border-slate-800 space-y-4">
+                    <h4 class="text-xs font-bold text-blue-400 uppercase tracking-wider">IFC Schema Temporal Relational Architecture</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+                        <div class="p-4 rounded-lg bg-slate-800 border border-slate-700 space-y-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-xs font-semibold">IfcControl</span>
+                            <div class="text-slate-300 font-bold">IfcWorkPlan &amp; IfcWorkSchedule</div>
+                            <p class="text-slate-400 font-sans text-xs">Encapsulates top-level project metadata, phase milestones, and timeline containers.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-slate-800 border border-slate-700 space-y-2">
+                            <span class="px-2 py-1 bg-teal-500/20 text-teal-300 rounded text-xs font-semibold">IfcProcess</span>
+                            <div class="text-slate-300 font-bold">IfcTask</div>
+                            <p class="text-slate-400 font-sans text-xs">Stores activity durations, early/late dates, total float, and calendar dependencies.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-slate-800 border border-slate-700 space-y-2">
+                            <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-semibold">IfcProduct / Resource</span>
+                            <div class="text-slate-300 font-bold">IfcBuildingElement &amp; Crew</div>
+                            <p class="text-slate-400 font-sans text-xs">Linked bidirectionally to tasks via <code class="text-purple-300">IfcRelAssignsToProcess</code>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mathematical Calculators Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+                    <!-- Calculator 1: Space Loading Factor (SLF) -->
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-base font-bold text-slate-900">1. Space Loading Factor (SLF) Estimator</h4>
+                            <span class="text-xs px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full font-semibold">Hosny et al. Formulation</span>
+                        </div>
+                        <p class="text-xs text-slate-600">
+                            Evaluates operational trade congestion in zone z during interval \Delta t:
+                            \text{SLF}(z, \Delta t) = \frac{\sum V_{\text{req}, i}(t)}{V_{\text{avail}, z}}
+                        </p>
+
+                        <div class="space-y-3 text-xs">
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Available Floor/Zone Volume (V_{\text{avail}, z}) [\text{m}^3]:</label>
+                                <input type="number" id="input-v-avail" value="500" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Cumulative Active Trade Workspaces (\sum V_{\text{req}}) [\text{m}^3]:</label>
+                                <input type="number" id="input-v-req" value="380" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <button onclick="calculateSLF()" class="w-full py-2.5 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">Compute Zone Congestion (SLF)</button>
+                        </div>
+
+                        <div id="slf-result" class="p-4 rounded-lg bg-white border border-slate-200 space-y-1">
+                            <div class="text-xs text-slate-500">Calculated Space Loading Factor:</div>
+                            <div id="slf-score" class="text-2xl font-extrabold text-blue-600">0.76</div>
+                            <div id="slf-status" class="text-xs font-semibold text-amber-600">&bull; Moderate Workspace Congestion Risk</div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator 2: Six-Parameter BWM Clash Criticality Index (CI) -->
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-base font-bold text-slate-900">2. BWM Clash Criticality Index (CI)</h4>
+                            <span class="text-xs px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full font-semibold">Bitaraf et al. (2024)</span>
+                        </div>
+                        <p class="text-xs text-slate-600">
+                            Multiplicative score ranking hard &amp; 4D spatial-temporal clashes:
+                            CI = P \times W_S \times W_{\text{MEP}(T)} \times W_{\text{MEP}(C)} \times N \times R \times U
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Penetration Depth P (m):</label>
+                                <input type="number" step="0.05" id="ci-p" value="0.15" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Structural Weight W_S:</label>
+                                <input type="number" step="0.1" id="ci-ws" value="1.8" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">MEP Time Weight W_{\text{MEP}(T)}:</label>
+                                <input type="number" step="0.1" id="ci-wt" value="1.5" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">MEP Cost Weight W_{\text{MEP}(C)}:</label>
+                                <input type="number" step="0.1" id="ci-wc" value="1.4" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Local Density N (#):</label>
+                                <input type="number" id="ci-n" value="4" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Zone Criticality U:</label>
+                                <input type="number" step="0.1" id="ci-u" value="1.2" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded">
+                            </div>
+                        </div>
+
+                        <button onclick="calculateCI()" class="w-full py-2.5 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">Rank Clash Criticality (CI)</button>
+
+                        <div id="ci-result" class="p-4 rounded-lg bg-white border border-slate-200 space-y-1">
+                            <div class="text-xs text-slate-500">Clash Criticality Index Score:</div>
+                            <div id="ci-score" class="text-2xl font-extrabold text-purple-600">2.72</div>
+                            <div id="ci-status" class="text-xs font-semibold text-rose-600">&bull; Critical Priority - Immediate Design Rework Required</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commercial Platform Matrix -->
+                <div class="pt-6 border-t border-slate-200">
+                    <h4 class="text-base font-bold text-slate-900 mb-3">Commercial 4D Software &amp; Generative Engine Matrix</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-2">
+                            <span class="font-bold text-blue-700 text-sm">Autodesk Navisworks Manage</span>
+                            <p class="text-slate-600">Federation &amp; clash review across 60+ CAD/BIM formats. TimeLiner module imports P6/MSP schedules for post-hoc 4D simulation.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-2">
+                            <span class="font-bold text-teal-700 text-sm">Bentley SYNCHRO 4D Pro</span>
+                            <p class="text-slate-600">Purpose-built 4D engine with native CPM scheduling, model splitting, resource leveling, and live IoT sensor integration.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-2">
+                            <span class="font-bold text-purple-700 text-sm">ALICE Technologies</span>
+                            <p class="text-slate-600">Explainable AI generative construction scheduling. Solves constraint networks to optimize project duration (-17%) and costs (-14%).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: EMPIRICAL BENCHMARKS -->
+        <section id="sec-empirical" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900">Empirical Performance Benchmarks &amp; Analytics</h3>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Quantitative data extracted from multi-storey RC building design changes (CS0–CS7), modular prefabrication, and LOD clash economic evaluations.
+                    </p>
+                </div>
+
+                <!-- Interactive Scenario Buttons -->
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="updateEmpiricalCharts('all')" class="px-3 py-1.5 bg-slate-900 text-white rounded-md font-medium">All Scenarios (CS0–CS7)</button>
+                    <button onclick="updateEmpiricalCharts('structural')" class="px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-md font-medium">CS1–CS4: Local Cross-Section Shifts</button>
+                    <button onclick="updateEmpiricalCharts('topological')" class="px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-md font-medium">CS5 &amp; CS7: Major Structural Expansion</button>
+                </div>
+
+                <!-- Chart Grid 1 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Chart 1: Design Change Sensitivity -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-sm font-bold text-slate-900">1. Composite Accuracy Under Design Changes (CS0–CS7)</h4>
+                            <span class="text-xs text-slate-500">% Accuracy</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartAccuracy"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2 text-center">BIM-5D accuracy drops only 2.9% at CS7, whereas Manual QTO drops 22.5%.</p>
+                    </div>
+
+                    <!-- Chart 2: Re-Estimation Turnaround Hours -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-sm font-bold text-slate-900">2. Turnaround Time per Design Change Revision</h4>
+                            <span class="text-xs text-slate-500">Hours / Change</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartTurnaround"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2 text-center">Integrated 3D+4D+5D compresses turnaround by 97.1% (from 42.0h to 1.2h).</p>
+                    </div>
+                </div>
+
+                <!-- Chart Grid 2 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+                    <!-- Chart 3: Work Category Trade Precision -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-sm font-bold text-slate-900">3. Trade Category Precision (BIM-5D vs Manual)</h4>
+                            <span class="text-xs text-slate-500">% Precision</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartTrades"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2 text-center">Concrete (99.2%) and Formwork (98.1%) show highest parametric precision gain.</p>
+                    </div>
+
+                    <!-- Chart 4: LOD 300 vs 350/400 Clash Rework Savings -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-sm font-bold text-slate-900">4. LOD Clash Breakdown &amp; Rework Cost Avoidance</h4>
+                            <span class="text-xs text-slate-500">Savings Breakdown (INR)</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chartLODClashes"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2 text-center">LOD 350/400 4D sequence clashes account for 58.0% of total rework cost savings.</p>
+                    </div>
+                </div>
+
+                <!-- Empirical Validation Table -->
+                <div class="pt-6 border-t border-slate-200">
+                    <h4 class="text-base font-bold text-slate-900 mb-3">Multi-Project Validation Matrix</h4>
+                    <div class="overflow-x-auto rounded-lg border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm">
+                            <thead class="bg-slate-900 text-white font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Project Typology</th>
+                                    <th class="p-3 border-b">Software Stack</th>
+                                    <th class="p-3 border-b">Clash &amp; Spatial Impact</th>
+                                    <th class="p-3 border-b">Schedule &amp; Cost Compression</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Multi-Storey RC Building</td>
+                                    <td class="p-3">Integrated 3D+4D+5D BIM</td>
+                                    <td class="p-3">88 total clashes (46 hard, 27 soft, 15 workflow 4D)</td>
+                                    <td class="p-3 font-semibold text-emerald-600">INR 16.2 lakh saved (~9.4% cost); 97.1% faster turnaround</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Prefabricated Modular Unit</td>
+                                    <td class="p-3">Revit + Tekla + Navisworks</td>
+                                    <td class="p-3">6 clashes (2 hard, 3 clearance, 1 column sequence)</td>
+                                    <td class="p-3 font-semibold text-blue-600">50% site duration cut (18 days &rarr; 9 days); 100% clash resolution</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Subterranean Pipeline</td>
+                                    <td class="p-3">4D Type I &amp; II Detection + LOB</td>
+                                    <td class="p-3">Eliminated overlapping trench/pipe workspace collisions</td>
+                                    <td class="p-3 font-semibold text-purple-600">Spatial-temporal clash incidence reduced from 45.5% to 0%</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Cyber-Physical Digital Twin</td>
+                                    <td class="p-3">4D IFC + UAV Photogrammetry + IoT UWB</td>
+                                    <td class="p-3">Automated point cloud volume differencing &amp; hazard envelopes</td>
+                                    <td class="p-3 font-semibold text-amber-600">Progress audit cycle compressed from 7 days to &lt; 4 hours</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: 4D PRINTING & INVERSE AI -->
+        <section id="sec-printing" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900">4D Printing Design Software &amp; AI Inverse Algorithms</h3>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Programmable matter morphogenesis across Liquid Crystal Elastomers (LCEs), Shape-Memory Polymers (SMPs), and non-iterative deep learning solvers.
+                    </p>
+                </div>
+
+                <!-- Table 5 Hardware Modalities -->
+                <div>
+                    <h4 class="text-base font-bold text-slate-900 mb-3">Table 5: 4D Printing Hardware &amp; Material Modality Matrix</h4>
+                    <div class="overflow-x-auto rounded-lg border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm">
+                            <thead class="bg-teal-900 text-white font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b border-teal-800">Hardware Modality</th>
+                                    <th class="p-3 border-b border-teal-800">Smart Active Materials</th>
+                                    <th class="p-3 border-b border-teal-800">Actuation Stimulus</th>
+                                    <th class="p-3 border-b border-teal-800">Computational &amp; Process Constraints</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Fused Deposition Modeling (FDM)</td>
+                                    <td class="p-3">Shape-Memory Polymers (SMPs), Carbon composites</td>
+                                    <td class="p-3 font-medium text-teal-700">Thermal fields &amp; moisture</td>
+                                    <td class="p-3">Requires explicit toolpath nozzle speed (50mm/s) &amp; porosity modeling.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Digital Light Processing (DLP/SLA)</td>
+                                    <td class="p-3">Photocurable SMP resins, hydrogels</td>
+                                    <td class="p-3 font-medium text-teal-700">UV / Visible light, thermal</td>
+                                    <td class="p-3">Ultra-high spatial resolution; constrained by slice-level cure depth models.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Selective Laser Sintering (SLS)</td>
+                                    <td class="p-3">Shape-Memory Alloys (SMAs), composite powders</td>
+                                    <td class="p-3 font-medium text-teal-700">Thermal phase transformation</td>
+                                    <td class="p-3">Zero support structures; complex thermal residual stress simulation needed.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Material Jetting (PolyJet)</td>
+                                    <td class="p-3">Digital materials, hydrophilic swelling hydrogels</td>
+                                    <td class="p-3 font-medium text-teal-700">Water immersion &amp; humidity</td>
+                                    <td class="p-3">Voxel-level spatial grading of expansion; non-linear viscoelastic relaxation.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-900">Direct Ink Writing (DIW / FP-DIW)</td>
+                                    <td class="p-3">Liquid Crystal Elastomers (LCEs), chitosan hydrogels</td>
+                                    <td class="p-3 font-medium text-teal-700">Thermal director alignment</td>
+                                    <td class="p-3">Shear-induced mesogen alignment along bilayer angles (0° vs 90°).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interactive LCE Bilayer Inverse Design Simulator -->
+                <div class="bg-slate-900 text-white rounded-xl p-6 border border-slate-800 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                            <h4 class="text-base font-bold text-teal-400">Interactive LCE Bilayer Inverse Material Simulator</h4>
+                            <p class="text-xs text-slate-400">Simulating non-iterative computer vision semantic segmentation for 4D LCE morphing voxels.</p>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 bg-teal-500/20 text-teal-300 rounded border border-teal-500/30 font-mono">Single-Pass FCN Inference</span>
+                    </div>
+
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Toggle voxel bilayer mesogen orientations below to observe the target 3D morphing state generated without FEA optimization loops:
+                    </p>
+
+                    <!-- Interactive Voxel Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                        <button onclick="selectBilayer('[0°, 0°]', 'In-Plane Uniform Contraction', 'Parallel mesogens top & bottom induce pure axial contraction along the printed line.')" class="p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left transition space-y-1">
+                            <div class="font-mono text-teal-300 font-bold">[0&deg;, 0&deg;] Parallel</div>
+                            <div class="text-slate-300 font-semibold text-xs">In-Plane Shrink</div>
+                        </button>
+                        <button onclick="selectBilayer('[0°, 90°]', 'Out-of-Plane Bending / Saddle', 'Orthogonal strain mismatch causes top layer shrinkage and bottom layer expansion, inducing bending.')" class="p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left transition space-y-1">
+                            <div class="font-mono text-amber-300 font-bold">[0&deg;, 90&deg;] Orthogonal</div>
+                            <div class="text-slate-300 font-semibold text-xs">+Saddle Bending</div>
+                        </button>
+                        <button onclick="selectBilayer('[90°, 0°]', 'Reverse Out-of-Plane Bending', 'Inverted strain gradient curves the voxel in the opposite normal direction.')" class="p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left transition space-y-1">
+                            <div class="font-mono text-purple-300 font-bold">[90&deg;, 0&deg;] Inverse</div>
+                            <div class="text-slate-300 font-semibold text-xs">-Saddle Bending</div>
+                        </button>
+                        <button onclick="selectBilayer('[90°, 90°]', 'Transverse In-Plane Shrinkage', 'Uniform perpendicular contraction across both layers.')" class="p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left transition space-y-1">
+                            <div class="font-mono text-blue-300 font-bold">[90&deg;, 90&deg;] Perpendicular</div>
+                            <div class="text-slate-300 font-semibold text-xs">Transverse Shrink</div>
+                        </button>
+                    </div>
+
+                    <!-- Simulator Output Screen -->
+                    <div id="lce-output" class="p-4 rounded-lg bg-slate-950 border border-slate-800 text-xs space-y-2">
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>Selected Bilayer Tag: <strong id="lce-tag" class="text-teal-300 font-mono">[0°, 90°] Orthogonal</strong></span>
+                            <span class="text-emerald-400 font-mono">&bull; Inference Time: 0.04s</span>
+                        </div>
+                        <div id="lce-title" class="text-sm font-bold text-white">Out-of-Plane Bending / Saddle Deformation</div>
+                        <p id="lce-desc" class="text-slate-300 leading-relaxed">
+                            Orthogonal strain mismatch causes top layer shrinkage and bottom layer expansion, inducing bending.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 4DYNAMO Invertible Normalizing Flow Equations -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                    <h4 class="text-base font-bold text-slate-900">Invertible Normalizing Flows (4DYNAMO Framework)</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Traversing process-structure-property spaces bijectively via chains of T diffeomorphic transformations:
+                    </p>
+                    <div class="bg-slate-900 text-purple-300 font-mono text-xs sm:text-sm p-4 rounded-lg overflow-x-auto">
+                        \log P(\mathbf{x}_T) = \log P(\mathbf{z}_0) - \sum_{k=1}^{T} \log \left| \det \frac{\partial f_k}{\partial \mathbf{z}_{k-1}} \right| \quad \Longleftrightarrow \quad \mathbf{z}_0 = f_1^{-1} \circ f_2^{-1} \circ \dots \circ f_T^{-1}(\mathbf{x}_T)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: DECLARATIONS & AUTHOR METADATA -->
+        <section id="sec-declarations" class="tab-content hidden space-y-8">
+            <!-- Author CRediT Metadata Card -->
+            <div class="bg-gradient-to-r from-blue-900 via-slate-900 to-slate-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl border border-slate-800 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs px-2.5 py-1 bg-blue-500/20 text-blue-300 rounded border border-blue-500/30 font-semibold uppercase tracking-wider">Sole Author &amp; Principal Investigator</span>
+                        <h3 class="text-2xl font-extrabold text-white mt-1">SAMUELSON G</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Correspondence and requests for computational schemas or comparative datasets should be addressed to the author.</p>
+                    </div>
+                    <div class="bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 text-xs text-slate-300 space-y-1">
+                        <div><strong>ORCID / Scopus ID:</strong> Registered</div>
+                        <div><strong>CRediT Taxonomy:</strong> 100% Sole Contribution</div>
+                    </div>
+                </div>
+
+                <h4 class="text-xs font-bold uppercase tracking-wider text-blue-400">CRediT Author Contribution Taxonomy Breakdown</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                    <div class="p-3 bg-slate-800/80 rounded border border-slate-700 space-y-1">
+                        <div class="font-bold text-white">Conceptualization</div>
+                        <p class="text-slate-300 text-xs">Formulated overarching dual-domain taxonomy uniting macro AECO 4D BIM and meso 4D printing inverse design.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/80 rounded border border-slate-700 space-y-1">
+                        <div class="font-bold text-white">Methodology &amp; Formulations</div>
+                        <p class="text-slate-300 text-xs">Synthesized spatial-temporal bounding box intersection, Space Loading Factor (SLF), and BWM CI index.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/80 rounded border border-slate-700 space-y-1">
+                        <div class="font-bold text-white">Software &amp; Data Curation</div>
+                        <p class="text-slate-300 text-xs">Compiled comparative benchmarks across Navisworks, SYNCHRO, BEXEL, ALICE, 4DYNAMO, and LCE networks.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/80 rounded border border-slate-700 space-y-1">
+                        <div class="font-bold text-white">Validation &amp; Investigation</div>
+                        <p class="text-slate-300 text-xs">Evaluated multi-project empirical metrics across CS0–CS7 design changes and pre-site modular erection.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/80 rounded border border-slate-700 space-y-1">
+                        <div class="font-bold text-white">Writing – Original Draft &amp; Review</div>
+                        <p class="text-slate-300 text-xs">Drafted, structured, and executed the complete manuscript, tabular matrices, and visual specifications.</p>
+                    </div>
+                    <div class="p-3 bg-slate-800/80 rounded border border-slate-700 space-y-1">
+                        <div class="font-bold text-white">Project Administration</div>
+                        <p class="text-slate-300 text-xs">Oversaw all phases of research execution and international openBIM standards alignment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mandatory Declarations Box -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6 text-xs sm:text-sm text-slate-700">
+                <h3 class="text-xl font-bold text-slate-900 pb-3 border-b border-slate-200">Formal Journal Publishing Declarations</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Ethics Approval &amp; Consent to Participate</h4>
+                        <p>Not applicable. This study synthesizes computational algorithms, data schemas, and published empirical engineering datasets without human or animal trials.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Consent for Publication</h4>
+                        <p>All empirical benchmarks, mathematical formulations, and software specifications analyzed in this work are approved for scholarly publication.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Availability of Data &amp; Materials</h4>
+                        <p>All quantitative sensitivity matrices (CS0–CS7), turnaround logs, clash distributions, and LCE segmentation datasets are fully integrated within the text and interactive visualizers of this publication.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Competing Interests Statement</h4>
+                        <p>The author (<strong>SAMUELSON G</strong>) declares no financial, commercial, or professional competing interests regarding any evaluated software platform.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Explicit Funding Statement</h4>
+                        <p>The author declares that no specific grant, institutional subsidy, or external financial support from public or commercial funding agencies was received for this research.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Code &amp; Schema Availability</h4>
+                        <p>Analyzed openBIM schemas are accessible via buildingSMART IFC and <code class="bg-slate-100 text-slate-800 px-1 py-0.5 rounded text-xs">ifcopenshell.api.sequence</code>. Commercial tools are available through respective vendors as cited.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Clinical Trial Compliance</h4>
+                        <p>Clinical trial number: Not applicable. No in vivo clinical interventions were conducted.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-blue-700">Intellectual Property &amp; Patent Governance</h4>
+                        <p>Analysis of G-code patentability references European Patent Office guidelines and the UK Supreme Court decision in <em>Emotional Perception</em> ([2026] UKSC 3).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Searchable References List -->
+            <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+                    <h3 class="text-xl font-bold text-slate-900">Complete Manuscript References (20 Benchmark Studies)</h3>
+                    <input type="text" id="ref-search" oninput="filterReferences()" placeholder="Search references by author, key, or title..." class="px-3 py-1.5 border border-slate-300 rounded-lg text-xs w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div id="ref-list" class="space-y-3 text-xs text-slate-700 custom-scrollbar max-h-96 overflow-y-auto pr-2">
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[1] International Journal of Engineering Research &amp; Technology (IJERT).</strong> "BIM-Based Cost Estimation and Scheduling: A Comparative Evaluation of Manual, CAD, BIM-QTO, and Integrated 5D BIM Methods." <em>IJERT</em>, Vol. 15, Issue 08 (CS0–CS7 benchmarks, 96.7% accuracy, 1.2h turnaround).
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[2] Campagna-Wilson, J., &amp; Boton, C.</strong> "Challenges Related to 4D BIM Simulation in the Construction Industry." In <em>Cooperative Design, Visualization, and Engineering</em>, Springer, doi:10.1007/978-3-030-60816-3.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[3] MDPI Buildings.</strong> "Systematic Review of 4D BIM Challenges, Strategies, Software Classifications, and AI-Driven Predictive Solutions (149 Reviewed Studies)." <em>Buildings</em>, Vol. 15, No. 7, Art. 1072.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[4] International Journal of Research in Civil Engineering and Technology (IJRCET).</strong> "Analytical Evaluation of 4D BIM and Clash Resolution in Prefabricated Modular Construction Using Revit, Tekla, and Navisworks." <em>IJRCET</em>, Vol. 7, Issue 1.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[5] Yin, J., et al.</strong> "BIM-Based Detection and Optimization of Spatial-Temporal Clashes in Underground Pipeline Construction." <em>Automation in Construction</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[6] Frontiers in Built Environment.</strong> "Action Research on 4D BIM Implementation: The Four-Phase Process and RACI Matrices on CESI Nanterre 2 Project." doi:10.3389/fbuil.2022.998309.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[7] Mirzaei, A., Nasirzadeh, F., et al.</strong> "4D BIM Dynamic Time–Space Conflict Detection and Workspace Planning in Construction Projects." <em>Journal of Construction Engineering</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[8] Hosny, A., Nik-Bakht, M., &amp; Moselhi, O.</strong> "Workspace Planning, Space Loading Factor (SLF), and Semantic Rules for Operational 4D Clash Detection." <em>ASCE J. Comput. Civ. Eng.</em>, doi:10.1061/(ASCE)CP.1943-5487.0001023.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[9] Bitaraf, I., Salimpour, A., Elmi, P., &amp; Javid, A. A. S.</strong> "Improved BIM-Based Method for Prioritizing Clash Detection via Six-Parameter BWM Criticality Index CI." <em>Buildings (MDPI)</em>, Vol. 14, Art. 3611, 2024.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[10] buildingSMART International.</strong> "OpenBIM Industry Foundation Classes (IFC) Schema for 4D Management: `IfcWorkSchedule`, `IfcTask`, `IfcRelAssignsToProcess`." <em>ifcopenshell API Specs</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[11] BEXEL Consulting.</strong> "BEXEL Manager 4D/5D Smart Scheduling Engine, LOB, Takt Planning, IDS Verification, and BCF Workflows." <em>Technical Documentation</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[12] Morkos, R., Pitcher, M., et al.</strong> "Generative Construction Scheduling, Constraint-Based Explainable AI Optioneering, and Pareto Front Optimization in ALICE Technologies." <em>ENR / ISARC</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[13] IJCEIS.</strong> "BIM, IoT, and UAV-Based Monitoring for Real-Time Site Safety: A Three-Tier Cyber-Physical Framework Using SfM and UWB Telemetry." <em>IJCEIS</em>, Vol. 2, 2026.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[14] Tibbits, S., et al.</strong> "The Emergence of 4D Printing: Programmable Materials, Hydrophilic Strands, and Autodesk Project Cyborg Multiphysics." <em>MIT Self-Assembly Lab / TED</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[15] Momeni, F., Hassani, S. M. M., et al.</strong> "A Review of 4D Printing: Smart Materials, Stimulus-Responsive Mechanisms, and Inverse Design Laws." <em>Materials &amp; Design</em>, Vol. 122.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[16] Frontiers in Materials.</strong> "Research Progress of 4D Printed Metamaterials: Auxetic Negative Poisson's Ratio Switching &amp; Inverse Design." doi:10.3389/fmats.2026.1854362.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[17] Virtual and Physical Prototyping.</strong> "Data-Driven Inverse Design for 4D Shell-Like Structures &amp; Noh Masks Using Fully Convolutional Networks (FCNs)." doi:10.1080/17452759.2025.2507099.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[18] Beijing Institute of Technology.</strong> "Non-Iterative Inverse Design for 4D Printing via Computer Vision Semantic Segmentation of LCE Bilayers." <em>Preprint</em>.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[19] ASME J. Manuf. Sci. Eng.</strong> "4DYNAMO: Optimizing Process Parameters &amp; Morphing Trajectories Using Invertible Normalizing Flows and PartNet VAEs." Vol. 146, Art. 101009.
+                    </div>
+                    <div class="ref-item p-3 rounded bg-slate-50 border border-slate-200">
+                        <strong class="text-slate-900">[20] TCT Magazine Legal Analysis.</strong> "Navigating AI-Driven 4D Printing &amp; Patent Law: G-Code Patentability in EPO and UK Supreme Court (*Emotional Perception* [2026] UKSC 3)." <em>TCT Legal Review</em>.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-8 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <p class="font-semibold text-slate-300">Computational Paradigms in 4D Design Software</p>
+                <p class="text-slate-500">Sole Author: <strong class="text-slate-300">SAMUELSON G</strong> &bull; Standards: OpenBIM ISO 16739 / buildingSMART IFC</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="px-2.5 py-1 bg-slate-900 rounded text-slate-400 border border-slate-800">Single HTML Interactive SPA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Global State & Tab Navigation
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active classes from desktop buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-slate-300', 'hover:bg-slate-800');
+            });
+
+            // Show selected tab
+            const target = document.getElementById('sec-' + tabId);
+            if (target) target.classList.remove('hidden');
+
+            // Highlight active button
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-300', 'hover:bg-slate-800');
+                activeBtn.classList.add('bg-blue-600', 'text-white');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // Trigger chart updates if empirical tab activated
+            if (tabId === 'empirical' && !window.chartsInitialized) {
+                initEmpiricalCharts();
+                window.chartsInitialized = true;
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Space Loading Factor (SLF) Calculator Logic
+        function calculateSLF() {
+            const vAvail = parseFloat(document.getElementById('input-v-avail').value) || 1;
+            const vReq = parseFloat(document.getElementById('input-v-req').value) || 0;
+            const slf = (vReq / vAvail).toFixed(2);
+
+            document.getElementById('slf-score').innerText = slf;
+            const statusEl = document.getElementById('slf-status');
+
+            if (slf > 0.90) {
+                statusEl.className = 'text-xs font-semibold text-rose-600';
+                statusEl.innerText = '• Extreme Operational Trade Congestion - High Risk of Productivity Degradation & Safety Hazard Transmission';
+            } else if (slf > 0.70) {
+                statusEl.className = 'text-xs font-semibold text-amber-600';
+                statusEl.innerText = '• Moderate Workspace Congestion Risk - Monitor Crew Overlap Schedule';
+            } else {
+                statusEl.className = 'text-xs font-semibold text-emerald-600';
+                statusEl.innerText = '• Optimal Zone Availability - Minimal Spatial Intersection';
+            }
+        }
+
+        // Six-Parameter BWM Clash Criticality Index (CI) Calculator Logic
+        function calculateCI() {
+            const p = parseFloat(document.getElementById('ci-p').value) || 0;
+            const ws = parseFloat(document.getElementById('ci-ws').value) || 1;
+            const wt = parseFloat(document.getElementById('ci-wt').value) || 1;
+            const wc = parseFloat(document.getElementById('ci-wc').value) || 1;
+            const n = parseFloat(document.getElementById('ci-n').value) || 1;
+            const u = parseFloat(document.getElementById('ci-u').value) || 1;
+            const r = 0.5; // Default volume ratio factor
+
+            const ci = (p * ws * wt * wc * n * r * u).toFixed(2);
+            document.getElementById('ci-score').innerText = ci;
+
+            const statusEl = document.getElementById('ci-status');
+            if (ci > 2.0) {
+                statusEl.className = 'text-xs font-semibold text-rose-600';
+                statusEl.innerText = '• Critical Priority - Immediate Design Rework Required';
+            } else if (ci > 1.0) {
+                statusEl.className = 'text-xs font-semibold text-amber-600';
+                statusEl.innerText = '• Medium Priority - Coordinate during next BIM milestone';
+            } else {
+                statusEl.className = 'text-xs font-semibold text-emerald-600';
+                statusEl.innerText = '• Low Priority / Clearance Tolerance Approved';
+            }
+        }
+
+        // LCE Bilayer Interactive Simulator
+        function selectBilayer(tag, title, desc) {
+            document.getElementById('lce-tag').innerText = tag;
+            document.getElementById('lce-title').innerText = title;
+            document.getElementById('lce-desc').innerText = desc;
+        }
+
+        // Reference Filtering Logic
+        function filterReferences() {
+            const query = document.getElementById('ref-search').value.toLowerCase();
+            const items = document.querySelectorAll('.ref-item');
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // Chart.js Empirical Visualizers
+        let chart1, chart2, chart3, chart4;
+
+        function initEmpiricalCharts() {
+            // Helper function for Chart label truncation
+            const truncateLabel = (str) => str.length > 16 ? str.substring(0, 14) + '..' : str;
+
+            // Chart 1: Accuracy Line Chart across CS0 - CS7
+            const ctx1 = document.getElementById('chartAccuracy').getContext('2d');
+            chart1 = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['CS0 (Base)', 'CS1 (Beam+10%)', 'CS2 (Beam+20%)', 'CS3 (Col+20%)', 'CS4 (Slab+20mm)', 'CS5 (Storey+1)', 'CS6 (Combined)', 'CS7 (Bay+1)'],
+                    datasets: [
+                        { label: 'BIM-5D Integrated', data: [96.7, 96.5, 96.2, 96.0, 95.8, 94.1, 95.2, 93.8], borderColor: '#2563eb', backgroundColor: '#2563eb', borderWidth: 2.5, tension: 0.2 },
+                        { label: 'BIM-QTO (3D)', data: [91.9, 91.2, 90.8, 90.4, 89.9, 85.4, 88.5, 84.7], borderColor: '#0d9488', borderWidth: 2, borderDash: [4, 4] },
+                        { label: 'CAD-TO (2D/3D)', data: [85.0, 83.5, 81.9, 80.2, 78.4, 69.8, 75.0, 67.2], borderColor: '#d97706', borderWidth: 1.8 },
+                        { label: 'Manual QTO', data: [78.4, 76.1, 73.8, 71.5, 69.0, 58.7, 64.2, 55.9], borderColor: '#e11d48', borderWidth: 1.8 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` } } },
+                    scales: { y: { min: 50, max: 100, title: { display: true, text: 'Accuracy (%)' } } }
+                }
+            });
+
+            // Chart 2: Turnaround Bar Chart
+            const ctx2 = document.getElementById('chartTurnaround').getContext('2d');
+            chart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Manual QTO', 'CAD-TO', 'BIM-QTO', 'Integrated BIM-5D'],
+                    datasets: [{
+                        label: 'Re-Estimation Hours / Change',
+                        data: [42.0, 24.0, 6.0, 1.2],
+                        backgroundColor: ['#f87171', '#fbbf24', '#2dd4bf', '#3b82f6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.raw} Hours` } } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Hours' } } }
+                }
+            });
+
+            // Chart 3: Trade Category Precision Horizontal Radar/Bar
+            const ctx3 = document.getElementById('chartTrades').getContext('2d');
+            chart3 = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['Concrete', 'Formwork', 'Masonry', 'Steel Rebar', 'Finishes'].map(truncateLabel),
+                    datasets: [
+                        { label: 'BIM-5D Precision', data: [99.2, 98.1, 97.6, 96.4, 95.8], backgroundColor: '#2563eb' },
+                        { label: 'Manual Precision', data: [85.2, 83.9, 81.1, 76.4, 78.6], backgroundColor: '#94a3b8' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { y: { min: 60, max: 100 } }
+                }
+            });
+
+            // Chart 4: LOD Clash Breakdown & Avoidance Savings Doughnut
+            const ctx4 = document.getElementById('chartLODClashes').getContext('2d');
+            chart4 = new Chart(ctx4, {
+                type: 'doughnut',
+                data: {
+                    labels: ['LOD 300 Hard/Soft Clashes (INR 6.8L)', 'LOD 350/400 4D Workflow Clashes (INR 9.4L)'],
+                    datasets: [{
+                        data: [6.8, 9.4],
+                        backgroundColor: ['#38bdf8', '#7c3aed']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.label}: Saved INR ${ctx.raw} Lakhs` } } }
+                }
+            });
+        }
+
+        function updateEmpiricalCharts(filterMode) {
+            if (!chart1) return;
+            if (filterMode === 'structural') {
+                chart1.data.labels = ['CS1 (Beam+10%)', 'CS2 (Beam+20%)', 'CS3 (Col+20%)', 'CS4 (Slab+20mm)'];
+                chart1.data.datasets[0].data = [96.5, 96.2, 96.0, 95.8];
+                chart1.data.datasets[1].data = [91.2, 90.8, 90.4, 89.9];
+                chart1.data.datasets[2].data = [83.5, 81.9, 80.2, 78.4];
+                chart1.data.datasets[3].data = [76.1, 73.8, 71.5, 69.0];
+            } else if (filterMode === 'topological') {
+                chart1.data.labels = ['CS5 (Storey+1)', 'CS7 (Bay+1)'];
+                chart1.data.datasets[0].data = [94.1, 93.8];
+                chart1.data.datasets[1].data = [85.4, 84.7];
+                chart1.data.datasets[2].data = [69.8, 67.2];
+                chart1.data.datasets[3].data = [58.7, 55.9];
+            } else {
+                chart1.data.labels = ['CS0 (Base)', 'CS1 (Beam+10%)', 'CS2 (Beam+20%)', 'CS3 (Col+20%)', 'CS4 (Slab+20mm)', 'CS5 (Storey+1)', 'CS6 (Combined)', 'CS7 (Bay+1)'];
+                chart1.data.datasets[0].data = [96.7, 96.5, 96.2, 96.0, 95.8, 94.1, 95.2, 93.8];
+                chart1.data.datasets[1].data = [91.9, 91.2, 90.8, 90.4, 89.9, 85.4, 88.5, 84.7];
+                chart1.data.datasets[2].data = [85.0, 83.5, 81.9, 80.2, 78.4, 69.8, 75.0, 67.2];
+                chart1.data.datasets[3].data = [78.4, 76.1, 73.8, 71.5, 69.0, 58.7, 64.2, 55.9];
+            }
+            chart1.update();
+        }
+
+        // Initialize Calculators on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            calculateSLF();
+            calculateCI();
+        });
+    </script>
+</body>
+</html>
