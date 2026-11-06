@@ -20,9 +20,9 @@ As established in the study's conclusions, introducing parametric bi-directional
 > **Official Research Repository & Interactive Web Suite**
 > **Principal Investigator & Sole Author:** SAMUELSON G
 
-[![DOI](https://img.shields.io/badge/DOI%20ResearchGate-10.13140/RG.2.2.35416.66564-blue)](https://doi.org/10.13140/RG.2.2.35416.66564)  
-[![Zenodo](https://img.shields.io/badge/Zenodo-blue)](https://zenodo.org/records/19544116)  
-[![Academia.edu](https://img.shields.io/badge/Academia.edu-blue)](https://www.academia.edu/165640547/Comprehensive_Analysis_of_Atmospheric_Pollution_Integrating_Fundamental_Chemistry_Epidemiological_Metrics_Sociological_Paradigms_and_Policy_Frameworks)  
+[![DOI](https://img.shields.io/badge/DOI%20ResearchGate-10.13140/RG.2.2.33027.67369-blue)](https://doi.org/10.13140/RG.2.2.33027.67369)  
+[![Zenodo](https://img.shields.io/badge/Zenodo-blue)](https://zenodo.org/records/24017003)  
+[![Academia.edu](https://img.shields.io/badge/Academia.edu-blue)](https://www.academia.edu/180364816/Computational_Paradigms_in_4D_Design_Software_Spatio_Temporal_Process_Simulation_in_AECO_and_Inverse_Material_Programming_in_Additive_Manufacturing)  
 
 ---
 
